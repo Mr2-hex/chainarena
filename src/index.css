@@ -1,0 +1,15 @@
+@font-face {
+  font-family: Inter;
+  src: url("../src/assets/fonts/Inter_18pt-Regular.ttf");
+}
+
+@font-face {
+  font-family: Funnel;
+  src: url("../src/assets/fonts/FunnelDisplay-ExtraBold.ttf");
+}
+@import "tailwindcss";
+
+@theme {
+  --font-inter: "Inter", sans-serif;
+  --font-funnel: "Funnel", sans-serif;
+}
