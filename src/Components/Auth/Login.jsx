@@ -1,0 +1,91 @@
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
+const Login = () => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [message, setMessage] = useState({ text: "", type: "" });
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setMessage({ text: "", type: "" });
+
+    try {
+      const res = await axios.post("http://localhost:3000/api/login", formData);
+      const { token, user } = res.data;
+
+      localStorage.setItem("authToken", token);
+      localStorage.setItem("user", JSON.stringify(user));
+
+      setMessage({ text: "Login successful!", type: "success" });
+      console.log(t);
+
+      setTimeout(() => navigate("/dashboard"), 1000);
+    } catch (error) {
+      const msg =
+        error.response?.data?.message || "Login failed. Please try again.";
+      setMessage({ text: msg, type: "error" });
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-[#0f172a] flex items-center justify-center px-4">
+      <div className="bg-[#1e293b] p-8 rounded-2xl w-full max-w-md shadow-lg">
+        <h2 className="text-white text-2xl font-funnel font-bold mb-6 text-center">
+          Login
+        </h2>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
+            className="w-full px-4 py-2 rounded-lg bg-[#334155] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600"
+            required
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+            className="w-full px-4 py-2 rounded-lg bg-[#334155] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600"
+            required
+          />
+
+          <button
+            type="submit"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition"
+          >
+            Login
+          </button>
+        </form>
+
+        {message.text && (
+          <div
+            className={`mt-6 p-3 rounded-lg border ${
+              message.type === "success"
+                ? "border-green-700 bg-green-200 text-green-700"
+                : "border-red-700 bg-red-200 text-red-700"
+            }`}
+          >
+            <p className="text-sm font-semibold text-center">{message.text}</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default Login;

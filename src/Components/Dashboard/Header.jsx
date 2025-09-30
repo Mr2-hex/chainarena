@@ -3,10 +3,10 @@ import { Bell, Search, User } from "lucide-react";
 
 const Header = () => {
   return (
-    <header className="w-full h-16  text-black flex items-center justify-between px-6  sticky top-0 z-50">
+    <header className="w-full h-16  text-black flex items-center justify-between px-6  z-50">
       {/* Left - Logo */}
       <div className="flex items-center gap-2">
-        <span className="text-3xl font-bold tracking-wide font-funnel">
+        <span className="text-3xl font-bold tracking-wide font-funnel max-[480px]:text-2xl">
           Welcome Back, Emmanuel
         </span>
       </div>
@@ -26,7 +26,7 @@ const Header = () => {
         {/* Notifications */}
 
         {/* User Avatar */}
-        <div className="w-9 h-9 rounded-full bg-[#2563EB] flex items-center justify-center cursor-pointer">
+        <div className="w-9 h-9 rounded-full bg-[#000b11] flex items-center justify-center cursor-pointer">
           <User className="w-5 h-5 text-white" />
         </div>
       </div>

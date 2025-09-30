@@ -7,8 +7,21 @@ import axios from "axios";
 const Home = () => {
   const [tournaments, setTournaments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null); // 👈 Add user state
 
   useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        if (parsedUser?.username) {
+          setUser(parsedUser);
+        }
+      } catch (err) {
+        console.error("Failed to parse user from localStorage:", err);
+      }
+    }
+
     const fetchTournaments = async () => {
       try {
         const res = await axios.get("http://localhost:3000/api/getTournament");
@@ -39,7 +52,7 @@ const Home = () => {
           <div className="bg-[#0f172a] text-white rounded-xl p-6 shadow-md flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
               <h1 className="text-2xl font-bold font-funnel">
-                Welcome Emmanuel 👋
+                Welcome {user?.username || "Guest"} 👋
               </h1>
               <p className="mt-2 text-sm text-blue-100 w-[70%] leading-6 font-inter">
                 Join tournaments, stake tokens, and experience the thrill of
