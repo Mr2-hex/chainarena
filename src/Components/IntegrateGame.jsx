@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { Clipboard } from "lucide-react";
 
-const IntegrateGame = () => {
+const integrateGame = () => {
   const [gameName, setGameName] = useState("");
   const [loading, setLoading] = useState(false);
   const [apiKey, setApiKey] = useState("");
@@ -197,4 +197,4 @@ const IntegrateGame = () => {
   );
 };
 
-export default IntegrateGame;
+export default integrateGame;
