@@ -7,12 +7,14 @@ import TournamentDetails from "./Components/TournamentDetails";
 import DocsPage from "./Components/DocsPage";
 import Register from "./Components/Auth/Register";
 import Login from "./Components/Auth/Login";
+import IntegrateGame from "./Components/integrateGame";
 
 function App() {
   return (
     <Routes>
-      <Route path="/dashboard" element={<Home />} />
       <Route path="/" element={<Login />} />
+      <Route path="/dashboard" element={<Home />} />
+      <Route path="/integrateGame" element={<IntegrateGame />} />
       <Route path="/register" element={<Register />} />
       <Route path="/create" element={<CreateTournament />} />
       <Route path="/event" element={<EventPage />} />

@@ -10,11 +10,11 @@ import {
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
-const Sidebar = () => {
+const Sidebar = ({ visible }) => {
   const location = useLocation();
 
   const menus = [
-    { name: "Dashboard", icon: Home, link: "/docs" },
+    { name: "Dashboard", icon: Home, link: "/dashboard" },
     { name: "Developers", icon: BookOpen, link: "/docs" },
     { name: "Messages", icon: MessageSquare, link: "/messages" },
     { name: "Notifications", icon: Bell, badge: 2, link: "/notifications" },
@@ -24,7 +24,16 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="flex flex-col bg-[#0f172a] text-gray-200 rounded-2xl h-[90vh] w-[220px] p-4 justify-between max-[720px]:hidden">
+    <div
+      className={`flex flex-col bg-[#0f172a] text-gray-200 rounded-2xl h-[90vh] w-[220px] p-4 justify-between z-50
+        sticky top-0
+        max-[720px]:fixed max-[720px]:top-0 max-[720px]:left-0 max-[720px]:h-screen max-[720px]:transition-transform max-[720px]:duration-300
+        ${
+          visible
+            ? "max-[720px]:translate-x-0"
+            : "max-[720px]:-translate-x-full"
+        }`}
+    >
       {/* Logo Section */}
       <div className="flex justify-center items-center gap-2 mb-10">
         {/* Add your logo here if needed */}
@@ -35,7 +44,7 @@ const Sidebar = () => {
         {menus.map((menu, idx) => {
           const isActive = location.pathname === menu.link;
 
-          return menu.link ? (
+          return (
             <li key={idx}>
               <Link
                 to={menu.link}
@@ -55,21 +64,6 @@ const Sidebar = () => {
                   </span>
                 )}
               </Link>
-            </li>
-          ) : (
-            <li
-              key={idx}
-              className="flex items-center gap-3 px-4 py-3 rounded-4xl hover:bg-blue-800 hover:text-white transition-all"
-            >
-              <menu.icon size={20} />
-              <span className="flex-1 text-sm font-funnel font-semibold">
-                {menu.name}
-              </span>
-              {menu.badge && (
-                <span className="bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
-                  {menu.badge}
-                </span>
-              )}
             </li>
           );
         })}

@@ -1,202 +1,274 @@
-import React from "react";
+import React, { useState } from "react";
 import DocsLayout from "./DocsLayout";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const codeJoinTournament = `
-import { ethers } from "ethers";
-import TournamentPoolABI from "./TournamentPool.json";
-
-const provider = new ethers.BrowserProvider(window.ethereum);
-const signer = await provider.getSigner();
-
-const contract = new ethers.Contract(
-  "<TOURNAMENT_POOL_ADDRESS>",
-  TournamentPoolABI,
-  signer
-);
-
-// Approve tokens first
-const token = new ethers.Contract("<TOKEN_ADDRESS>", ERC20_ABI, signer);
-await token.approve("<TOURNAMENT_POOL_ADDRESS>", ethers.parseUnits("100", 18));
-
-// Join tournament (pass the tournament ID + stake)
-await contract.joinTournament(ethers.parseUnits("100", 18));
-`;
-
-const codeGetPlayers = `
-const players = await contract.getPlayers();
-console.log("Players:", players);
-`;
-
-const codeCreateTournament = `
-POST /api/tournaments
+POST /api/tournaments/:id/join
+Headers: { "Authorization": "<your-api-key>" }
 {
-  "name": "Hackathon Cup",
-  "minPlayers": 2,
-  "maxPlayers": 10
+  "code": "<tournamentCode>"
 }
 `;
 
-const codeJoinApi = `
-POST /api/tournaments/:id/join
+const codeJoinResponse = `
 {
-  "stakeAmount": 100
+  "success": true
+}
+`;
+
+const codeJoinTournamentNew = `
+POST /api/tournaments/:id/join
+Headers: { "Authorization": "<your-api-key>" }
+{
+  "walletAddress": "0xYourWalletAddress"
+}
+`;
+
+const codeJoinResponseNew = `
+{
+  "success": true,
+  "user": "PlayerName",
+  "walletAddress": "0xYourWalletAddress",
+  "tournament": {
+    "id": "<tournamentId>",
+    "name": "FIFA 24 Championship",
+    "tournamentCode": "<uniquePlayerCode>"
+  }
+}
+`;
+
+const codeRewardWinner = `
+POST /api/tournaments/:id/winner
+Headers: { "Authorization": "<your-api-key>" }
+{
+  "winner": "0xWinnerWalletAddress"
+}
+`;
+
+const codeRewardResponse = `
+{
+  "success": true
 }
 `;
 
 const DocsPage = () => {
+  const [showJoinSneakPeek, setShowJoinSneakPeek] = useState(false);
+  const [showRewardSneakPeek, setShowRewardSneakPeek] = useState(false);
+
   return (
     <DocsLayout>
       {/* Title */}
       <section>
-        <h1 className="text-3xl font-bold mb-4">
-          🎮 TournamentPool Integration Docs
+        <h1 className="text-3xl font-bold text-gray-900 mb-4 font-funnel">
+          🎮 Chain Arena API Integration
         </h1>
         <p className="text-gray-700">
-          Welcome! This document explains how to integrate your game with the
-          TournamentPool smart contract + backend API.
+          Welcome! This guide shows how to integrate your game with Chain Arena
+          to let players join tournaments and compete for HACKUSD rewards.
         </p>
+      </section>
+
+      {/* Add Your Game Button */}
+      <section className="mt-6">
+        <p className="text-gray-700 font-medium mb-4">
+          Haven’t added your game yet? Get started now!
+        </p>
+        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+          <Link
+            to="/integrateGame"
+            className="inline-block bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-indigo-700 transition duration-200"
+          >
+            🕹️ Add Your Game
+          </Link>
+        </motion.div>
       </section>
 
       {/* Overview */}
-      <section id="overview" className="space-y-4">
-        <h2 className="text-2xl font-bold">📌 Overview</h2>
+      <section id="overview" className="space-y-4 mt-6">
+        <h2 className="text-2xl font-bold text-gray-900">📌 Overview</h2>
         <p className="text-gray-700 leading-7">
-          TournamentPool allows games to host tournaments where players stake
-          ERC-20 tokens to participate.
+          Chain Arena enables players to join tournaments using HACKUSD tokens
+          via a smart contract. Use our API to integrate your game and let
+          players compete seamlessly.
         </p>
         <ul className="list-disc ml-6 text-gray-700 space-y-1">
-          <li>Players join a tournament with a token stake.</li>
-          <li>Once the tournament ends, the prize pool can be distributed.</li>
-          <li>Games only need to call the API / contract methods provided.</li>
+          <li>Tournaments are created on the platform, not via this API.</li>
+          <li>Players join with a tournament code and stake tokens.</li>
+          <li>Use your game’s API key to authenticate requests.</li>
         </ul>
+      </section>
+
+      {/* Game Integration */}
+      <section id="game-integration" className="space-y-4 mt-6">
+        <h2 className="text-2xl font-bold text-gray-900">
+          🕹️ Game Integration
+        </h2>
+        <p className="text-gray-700 leading-7">
+          Get an API key to authenticate your game’s requests.
+        </p>
+        <ol className="list-decimal ml-6 text-gray-700 space-y-1">
+          <li>
+            Visit{" "}
+            <Link
+              to="/integrateGame"
+              className="text-indigo-600 hover:underline"
+            >
+              Integrate Game
+            </Link>{" "}
+            to add your game.
+          </li>
+          <li>Provide your game’s name (e.g., “FIFA 24”).</li>
+          <li>Get a unique API key (e.g., “abc123xyz789”).</li>
+          <li>
+            Include it in the <code>Authorization</code> header.
+          </li>
+        </ol>
       </section>
 
       {/* Quickstart */}
-      <section id="quickstart" className="space-y-4">
-        <h2 className="text-2xl font-bold">⚡ Quickstart</h2>
+      <section id="quickstart" className="space-y-4 mt-6">
+        <h2 className="text-2xl font-bold text-gray-900">⚡ Quickstart</h2>
         <ol className="list-decimal ml-6 text-gray-700 space-y-1">
-          <li>Wallet: MetaMask or any Web3-compatible wallet</li>
           <li>Network: Sepolia Testnet</li>
-          <li>Token: ERC-20 deployed token (e.g. HACKUSD)</li>
+          <li>Token: HACKUSD (ERC-20)</li>
           <li>
-            Contract: TournamentPool deployed at <code>0x...</code>
+            API Key: Use{" "}
+            <Link
+              to="/integrateGame"
+              className="text-indigo-600 hover:underline"
+            >
+              Integrate Game
+            </Link>
+          </li>
+          <li>
+            Base URL: <code>http://localhost:3000/api</code>
           </li>
         </ol>
-      </section>
-
-      {/* Smart Contract */}
-      <section id="contract" className="space-y-4">
-        <h2 className="text-2xl font-bold">🔗 Smart Contract</h2>
-        <p>
-          Deployed at: <code>&lt;your_contract_address&gt;</code>
-        </p>
-        <p>
-          Provide the ABI JSON file (so devs can import into ethers.js/web3.js).
-        </p>
-
-        {/* joinTournament */}
-        <h3 className="text-xl font-semibold mt-6">
-          joinTournament(uint256 _stakeAmount)
-        </h3>
-        <p className="text-gray-700">
-          Description: Player stakes tokens to join.
-          <br />
-          Params: <code>_stakeAmount</code> – the amount of ERC20 tokens to
-          stake.
-        </p>
-        <SyntaxHighlighter language="javascript" style={oneDark}>
-          {codeJoinTournament}
-        </SyntaxHighlighter>
-
-        {/* getPlayers */}
-        <h3 className="text-xl font-semibold mt-6">getPlayers()</h3>
-        <p className="text-gray-700">
-          Returns the list of all player addresses that joined.
-        </p>
-        <SyntaxHighlighter language="javascript" style={oneDark}>
-          {codeGetPlayers}
-        </SyntaxHighlighter>
-
-        {/* closeTournament */}
-        <h3 className="text-xl font-semibold mt-6">closeTournament()</h3>
-        <p className="text-gray-700">
-          Closes the tournament when max players are reached. Admin only.
-        </p>
-
-        {/* rewardWinner */}
-        <h3 className="text-xl font-semibold mt-6">
-          rewardWinner(address winner)
-        </h3>
-        <p className="text-gray-700">
-          Sends the full token pool to the winner. Admin only.
-        </p>
       </section>
 
       {/* Backend API */}
-      <section id="api" className="space-y-4">
-        <h2 className="text-2xl font-bold">🌐 Backend API</h2>
-
-        <h3 className="text-xl font-semibold">POST /api/tournaments</h3>
-        <p>Create a new tournament.</p>
-        <SyntaxHighlighter language="json" style={oneDark}>
-          {codeCreateTournament}
-        </SyntaxHighlighter>
-
-        <h3 className="text-xl font-semibold">
+      <section id="api" className="space-y-4 mt-6">
+        <h2 className="text-2xl font-bold text-gray-900">🌐 Backend API</h2>
+        <h3 className="text-xl font-semibold text-gray-800 mt-4">
           POST /api/tournaments/:id/join
         </h3>
-        <p>Join a tournament (backend verifies JWT, links wallet).</p>
+        <p className="text-gray-700">
+          Join a tournament with a unique code. Include your API key in the
+          headers.
+        </p>
         <SyntaxHighlighter language="json" style={oneDark}>
-          {codeJoinApi}
+          {codeJoinTournament}
         </SyntaxHighlighter>
-
-        <h3 className="text-xl font-semibold">GET /api/tournaments/:id</h3>
-        <p>Fetch tournament details (name, image, players, status).</p>
+        <p className="text-gray-700">
+          <strong>Headers:</strong> Authorization: your-api-key
+          <br />
+          <strong>Params:</strong> id – Tournament ID from platform
+          <br />
+          <strong>Body:</strong> code – Tournament code (e.g., “XYZ123”)
+          <br />
+          <strong>Response:</strong>
+        </p>
+        <SyntaxHighlighter language="json" style={oneDark}>
+          {codeJoinResponse}
+        </SyntaxHighlighter>
       </section>
 
-      {/* Frontend Integration */}
-      <section id="frontend" className="space-y-4">
-        <h2 className="text-2xl font-bold">🎨 Frontend Integration</h2>
-        <ul className="list-disc ml-6 text-gray-700 space-y-1">
-          <li>Display tournaments list (fetched from backend).</li>
-          <li>On Join, ask user for tournament ID + stake amount.</li>
-          <li>
-            Backend handles verification and contract call — no MetaMask popup
-            needed.
-          </li>
-        </ul>
-      </section>
+      {/* Coming Soon Features */}
+      <section id="coming-soon" className="space-y-4 mt-6">
+        <h2 className="text-2xl font-bold text-gray-900">🚧 Coming Soon</h2>
+        <p className="text-gray-700 leading-7">
+          Exciting new features are under construction to enhance your Chain
+          Arena experience. Check out a sneak peek of what’s to come!
+        </p>
 
-      {/* Example Flow */}
-      <section id="flow" className="space-y-4">
-        <h2 className="text-2xl font-bold">✅ Example Flow</h2>
-        <ol className="list-decimal ml-6 text-gray-700 space-y-1">
-          <li>Player logs into your game.</li>
-          <li>Player clicks “Join Tournament”.</li>
-          <li>Game calls backend → backend gives tournament details.</li>
-          <li>Frontend prompts for tournament ID + stake amount.</li>
-          <li>Backend processes joinTournament on-chain.</li>
-          <li>When tournament ends, admin calls rewardWinner().</li>
-        </ol>
-      </section>
+        {/* Join Tournament (Updated) */}
+        <div className="space-y-2">
+          <h3 className="text-xl font-semibold text-gray-800">
+            Join Tournament (Updated)
+          </h3>
+          <p className="text-gray-700">
+            Soon, players will stake HACKUSD tokens via our smart contract and
+            receive a unique tournament code per player for a seamless
+            experience. No need to input wallet addresses manually!
+          </p>
+          <motion.button
+            onClick={() => setShowJoinSneakPeek(!showJoinSneakPeek)}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="inline-block bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg shadow-lg hover:bg-indigo-700 transition duration-200"
+          >
+            {showJoinSneakPeek ? "Hide Sneak Peek" : "Show Sneak Peek"}
+          </motion.button>
+          <AnimatePresence>
+            {showJoinSneakPeek && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+                className="space-y-4 mt-4"
+              >
+                <p className="text-gray-700">
+                  <strong>Request:</strong> After staking, join with your API
+                  key and wallet address.
+                </p>
+                <SyntaxHighlighter language="json" style={oneDark}>
+                  {codeJoinTournamentNew}
+                </SyntaxHighlighter>
+                <p className="text-gray-700">
+                  <strong>Response:</strong> Get a unique code for the player.
+                </p>
+                <SyntaxHighlighter language="json" style={oneDark}>
+                  {codeJoinResponseNew}
+                </SyntaxHighlighter>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
 
-      {/* Events */}
-      <section id="events" className="space-y-4">
-        <h2 className="text-2xl font-bold">📢 Events</h2>
-        <ul className="list-disc ml-6 text-gray-700 space-y-1">
-          <li>
-            <code>PlayerJoined(address player, uint256 stake)</code>
-          </li>
-          <li>
-            <code>TournamentClosed()</code>
-          </li>
-          <li>
-            <code>WinnerRewarded(address winner, uint256 amount)</code>
-          </li>
-        </ul>
-        <p>Listen to these for real-time updates.</p>
+        {/* Reward Winner */}
+        <div className="space-y-2">
+          <h3 className="text-xl font-semibold text-gray-800">Reward Winner</h3>
+          <p className="text-gray-700">
+            Under construction: Report the tournament winner to trigger smart
+            contract payouts in HACKUSD tokens to the winner’s wallet.
+          </p>
+          <motion.button
+            onClick={() => setShowRewardSneakPeek(!showRewardSneakPeek)}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="inline-block bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg shadow-lg hover:bg-indigo-700 transition duration-200"
+          >
+            {showRewardSneakPeek ? "Hide Sneak Peek" : "Show Sneak Peek"}
+          </motion.button>
+          <AnimatePresence>
+            {showRewardSneakPeek && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+                className="space-y-4 mt-4"
+              >
+                <p className="text-gray-700">
+                  <strong>Request:</strong> Report the winner’s wallet address.
+                </p>
+                <SyntaxHighlighter language="json" style={oneDark}>
+                  {codeRewardWinner}
+                </SyntaxHighlighter>
+                <p className="text-gray-700">
+                  <strong>Response:</strong> Confirm payout success.
+                </p>
+                <SyntaxHighlighter language="json" style={oneDark}>
+                  {codeRewardResponse}
+                </SyntaxHighlighter>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </section>
     </DocsLayout>
   );

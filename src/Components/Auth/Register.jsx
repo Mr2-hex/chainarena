@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate, Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +11,7 @@ const Register = () => {
   });
 
   const [message, setMessage] = useState({ text: "", type: "" });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -23,18 +26,30 @@ const Register = () => {
         "http://localhost:3000/api/register",
         formData
       );
+      const { token, user } = res.data;
+
+      localStorage.setItem("authToken", token);
+      localStorage.setItem("user", JSON.stringify(user));
+
       setMessage({ text: "Registration successful!", type: "success" });
+
+      setTimeout(() => navigate("/dashboard"), 1000);
     } catch (error) {
-      setMessage({
-        text: "Registration failed. Please try again.",
-        type: "error",
-      });
+      const msg =
+        error.response?.data?.message ||
+        "Registration failed. Please try again.";
+      setMessage({ text: msg, type: "error" });
     }
   };
 
   return (
     <div className="min-h-screen bg-[#0f172a] flex items-center justify-center px-4">
-      <div className="bg-[#1e293b] p-8 rounded-2xl w-full max-w-md shadow-lg">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="bg-[#1e293b] p-8 rounded-2xl w-full max-w-md shadow-lg"
+      >
         <h2 className="text-white text-2xl font-funnel font-bold mb-6 text-center">
           Register
         </h2>
@@ -72,7 +87,7 @@ const Register = () => {
             type="submit"
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition"
           >
-            Submit
+            Register
           </button>
         </form>
 
@@ -87,7 +102,14 @@ const Register = () => {
             <p className="text-sm font-semibold text-center">{message.text}</p>
           </div>
         )}
-      </div>
+
+        <p className="mt-4 text-center text-sm text-gray-400">
+          Already have an account?{" "}
+          <Link to="/login" className="text-blue-400 hover:underline">
+            Login
+          </Link>
+        </p>
+      </motion.div>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -27,7 +28,6 @@ const Login = () => {
       localStorage.setItem("user", JSON.stringify(user));
 
       setMessage({ text: "Login successful!", type: "success" });
-      console.log(t);
 
       setTimeout(() => navigate("/dashboard"), 1000);
     } catch (error) {
@@ -39,7 +39,12 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-[#0f172a] flex items-center justify-center px-4">
-      <div className="bg-[#1e293b] p-8 rounded-2xl w-full max-w-md shadow-lg">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="bg-[#1e293b] p-8 rounded-2xl w-full max-w-md shadow-lg"
+      >
         <h2 className="text-white text-2xl font-funnel font-bold mb-6 text-center">
           Login
         </h2>
@@ -83,7 +88,14 @@ const Login = () => {
             <p className="text-sm font-semibold text-center">{message.text}</p>
           </div>
         )}
-      </div>
+
+        <p className="mt-4 text-center text-sm text-gray-400">
+          Don’t have an account?{" "}
+          <Link to="/register" className="text-blue-400 hover:underline">
+            Register
+          </Link>
+        </p>
+      </motion.div>
     </div>
   );
 };
