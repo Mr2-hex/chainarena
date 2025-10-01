@@ -20,7 +20,7 @@ export default function StakePage() {
 
       // 2. Connect to contract
       const contract = new ethers.Contract(
-        "0xContractAddressHere", // Replace with deployed contract address
+        "0xContractAddressHere",
         tournamentAbi,
         signer
       );
@@ -29,8 +29,8 @@ export default function StakePage() {
 
       // 3. Call stake()
       const tx = await contract.stake(
-        ethers.parseUnits(stakeAmount.toString(), 18), // pass stake amount
-        { value: ethers.parseUnits(stakeAmount.toString(), 18) } // if using native token
+        ethers.parseUnits(stakeAmount.toString(), 18),
+        { value: ethers.parseUnits(stakeAmount.toString(), 18) }
       );
 
       setStatus(`Transaction sent: ${tx.hash}`);

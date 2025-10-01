@@ -32,7 +32,7 @@ const TournamentDetails = () => {
           return;
         }
         const res = await axios.get(
-          `http://localhost:3000/api/tournaments/${id}`,
+          ` https://chain-backend-tkk9.onrender.com/api/tournaments/${id}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }

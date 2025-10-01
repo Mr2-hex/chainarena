@@ -27,7 +27,9 @@ const Home = () => {
 
     const fetchTournaments = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/getTournament");
+        const res = await axios.get(
+          " https://chain-backend-tkk9.onrender.com/api/getTournament"
+        );
         setTournaments(res.data);
       } catch (error) {
         console.error("Failed to fetch tournaments:", error);

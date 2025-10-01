@@ -21,7 +21,10 @@ const Login = () => {
     setMessage({ text: "", type: "" });
 
     try {
-      const res = await axios.post("http://localhost:3000/api/login", formData);
+      const res = await axios.post(
+        " https://chain-backend-tkk9.onrender.com/api/login",
+        formData
+      );
       const { token, user } = res.data;
 
       localStorage.setItem("authToken", token);

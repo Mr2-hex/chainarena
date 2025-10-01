@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 
 const codeJoinTournament = `
-POST /api/tournaments/:id/join
+POST  https://chain-backend-tkk9.onrender.com/api/tournaments/:id/join
 Headers: { "Authorization": "<your-api-key>" }
 {
   "code": "<tournamentCode>"

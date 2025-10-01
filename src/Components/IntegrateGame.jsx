@@ -22,7 +22,7 @@ const IntegrateGame = () => {
     try {
       // Ensure loader shows for at least 1 second
       const [res] = await Promise.all([
-        axios.post("http://localhost:3000/api/putGames", {
+        axios.post(" https://chain-backend-tkk9.onrender.com/api/putGames", {
           name: gameName,
         }),
         new Promise((resolve) => setTimeout(resolve, 1000)),

@@ -19,8 +19,10 @@ const CreateTournament = () => {
   useEffect(() => {
     const fetchGames = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/getGames");
-        console.log("Games response:", res.data); // Debug response
+        const res = await axios.get(
+          " https://chain-backend-tkk9.onrender.com/api/getGames"
+        );
+        console.log("Games response:", res.data);
         const gamesData = res.data.games;
         if (Array.isArray(gamesData)) {
           setGames(gamesData);
