@@ -78,7 +78,7 @@ const CreateTournament = () => {
     try {
       console.log("Submitting tournament:", form); // Debug form data
       const res = await axios.post(
-        "http://localhost:3000/api/createTournament",
+        " https://chain-backend-tkk9.onrender.com/api/createTournament",
         {
           name: form.name,
           gameId: form.gameId,
