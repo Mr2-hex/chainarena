@@ -10,6 +10,7 @@ const Login = () => {
   });
 
   const [message, setMessage] = useState({ text: "", type: "" });
+  const [loading, setLoading] = useState(false); // ✅ loading state
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -19,6 +20,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage({ text: "", type: "" });
+    setLoading(true); // ✅ start loading
 
     try {
       const res = await axios.post(
@@ -37,6 +39,8 @@ const Login = () => {
       const msg =
         error.response?.data?.message || "Login failed. Please try again.";
       setMessage({ text: msg, type: "error" });
+    } finally {
+      setLoading(false); // ✅ stop loading
     }
   };
 
@@ -74,9 +78,14 @@ const Login = () => {
 
           <button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition"
+            disabled={loading} // ✅ disable while loading
+            className={`w-full ${
+              loading
+                ? "bg-blue-400 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
+            } text-white font-semibold py-2 rounded-lg transition`}
           >
-            Login
+            {loading ? "Loading..." : "Login"} {/* ✅ show text */}
           </button>
         </form>
 

@@ -11,6 +11,7 @@ const Register = () => {
   });
 
   const [message, setMessage] = useState({ text: "", type: "" });
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -20,6 +21,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage({ text: "", type: "" });
+    setLoading(true);
 
     try {
       const res = await axios.post(
@@ -39,6 +41,8 @@ const Register = () => {
         error.response?.data?.message ||
         "Registration failed. Please try again.";
       setMessage({ text: msg, type: "error" });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -85,9 +89,14 @@ const Register = () => {
 
           <button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition"
+            disabled={loading}
+            className={`w-full ${
+              loading
+                ? "bg-blue-400 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
+            } text-white font-semibold py-2 rounded-lg transition`}
           >
-            Register
+            {loading ? "Loading..." : "Register"}y
           </button>
         </form>
 
@@ -105,7 +114,7 @@ const Register = () => {
 
         <p className="mt-4 text-center text-sm text-gray-400">
           Already have an account?{" "}
-          <Link to="/login" className="text-blue-400 hover:underline">
+          <Link to="/" className="text-blue-400 hover:underline">
             Login
           </Link>
         </p>
