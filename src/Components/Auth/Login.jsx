@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -10,8 +11,9 @@ const Login = () => {
   });
 
   const [message, setMessage] = useState({ text: "", type: "" });
-  const [loading, setLoading] = useState(false); // ✅ loading state
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -20,27 +22,26 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage({ text: "", type: "" });
-    setLoading(true); // ✅ start loading
+    setLoading(true);
 
     try {
-      const res = await axios.post(
-        " https://chain-backend-tkk9.onrender.com/api/login",
-        formData
-      );
+      const res = await axios.post(`${BASE_URL}/api/login`, formData);
       const { token, user } = res.data;
 
       localStorage.setItem("authToken", token);
       localStorage.setItem("user", JSON.stringify(user));
 
       setMessage({ text: "Login successful!", type: "success" });
+      toast.success("Login Successfull!!");
 
       setTimeout(() => navigate("/dashboard"), 1000);
     } catch (error) {
       const msg =
         error.response?.data?.message || "Login failed. Please try again.";
       setMessage({ text: msg, type: "error" });
+      toast.error(msg);
     } finally {
-      setLoading(false); // ✅ stop loading
+      setLoading(false);
     }
   };
 
@@ -78,14 +79,14 @@ const Login = () => {
 
           <button
             type="submit"
-            disabled={loading} // ✅ disable while loading
+            disabled={loading}
             className={`w-full ${
               loading
                 ? "bg-blue-400 cursor-not-allowed"
                 : "bg-blue-600 hover:bg-blue-700"
             } text-white font-semibold py-2 rounded-lg transition`}
           >
-            {loading ? "Loading..." : "Login"} {/* ✅ show text */}
+            {loading ? "Loading..." : "Login"}
           </button>
         </form>
 

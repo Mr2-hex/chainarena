@@ -16,16 +16,16 @@ const Sidebar = ({ visible }) => {
   const menus = [
     { name: "Dashboard", icon: Home, link: "/dashboard" },
     { name: "Developers", icon: BookOpen, link: "/docs" },
+    { name: "User Profile", icon: Users, link: "/user" },
     { name: "Messages", icon: MessageSquare, link: "/messages" },
-    { name: "Notifications", icon: Bell, badge: 2, link: "/notifications" },
+    { name: "Notifications", icon: Bell, badge: 2, link: "/notification" },
     { name: "Calendar", icon: Calendar, link: "/calendar" },
-    { name: "Community", icon: Users, link: "/community" },
     { name: "Settings", icon: Settings, link: "/settings" },
   ];
 
   return (
     <div
-      className={`flex flex-col bg-[#0f172a] text-gray-200 rounded-2xl h-[90vh] w-[220px] p-4 justify-between z-50
+      className={`flex flex-col bg-[#0f172a] text-gray-200 rounded-2xl h-[90vh] w-[220px] p-4 justify-between z-50 max-[720px]:rounded-tl-none max-[720px]:rounded-bl-none
         sticky top-0
         max-[720px]:fixed max-[720px]:top-0 max-[720px]:left-0 max-[720px]:h-screen max-[720px]:transition-transform max-[720px]:duration-300
         ${

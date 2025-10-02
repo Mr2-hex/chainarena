@@ -13,6 +13,7 @@ const PutGame = () => {
   const [copied, setCopied] = useState(false);
   const navigate = useNavigate();
   const errorRef = useRef(null);
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,7 +23,7 @@ const PutGame = () => {
     try {
       // Ensure loader shows for at least 1 second
       const [res] = await Promise.all([
-        axios.post(" https://chain-backend-tkk9.onrender.com/api/putGames", {
+        axios.post(` https://${BASE_URL}/api/putGames`, {
           name: gameName,
         }),
         new Promise((resolve) => setTimeout(resolve, 1000)),

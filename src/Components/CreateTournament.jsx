@@ -15,13 +15,12 @@ const CreateTournament = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ text: "", type: "" });
   const navigate = useNavigate();
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {
     const fetchGames = async () => {
       try {
-        const res = await axios.get(
-          " https://chain-backend-tkk9.onrender.com/api/getGames"
-        );
+        const res = await axios.get(`${BASE_URL}/api/getGames`);
         console.log("Games response:", res.data);
         const gamesData = res.data.games;
         if (Array.isArray(gamesData)) {
@@ -76,19 +75,16 @@ const CreateTournament = () => {
 
     setLoading(true);
     try {
-      console.log("Submitting tournament:", form); // Debug form data
-      const res = await axios.post(
-        " https://chain-backend-tkk9.onrender.com/api/createTournament",
-        {
-          name: form.name,
-          gameId: form.gameId,
-          stakeAmount: form.stakeAmount,
-          minPlayers: Number(form.minPlayers),
-          maxPlayers: Number(form.maxPlayers),
-        }
-      );
+      console.log("Submitting tournament:", form);
+      const res = await axios.post(`${BASE_URL}/api/createTournament`, {
+        name: form.name,
+        gameId: form.gameId,
+        stakeAmount: form.stakeAmount,
+        minPlayers: Number(form.minPlayers),
+        maxPlayers: Number(form.maxPlayers),
+      });
       setMessage({
-        text: `✅ Tournament "${form.name}" created! Contract: ${res.data.contractAddress}`,
+        text: `✅ Tournament "${form.name}" created!`,
         type: "success",
       });
       setForm({
@@ -121,13 +117,13 @@ const CreateTournament = () => {
         transition={{ duration: 0.5 }}
         className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-2xl"
       >
-        <h1 className="text-3xl font-extrabold text-gray-800 mb-6 text-center">
+        <h1 className="text-3xl font-funnel font-extrabold text-gray-800 mb-6 text-center">
           🎮 Create Tournament
         </h1>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium  text-gray-700">
               Tournament Name
             </label>
             <input

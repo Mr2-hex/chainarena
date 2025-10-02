@@ -1,32 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
+import Sidebar from "../Components/Dashboard/Sidebar";
+import Header from "../Components/Dashboard/Header";
 
 const DocsLayout = ({ children }) => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   return (
-    <div className="flex min-h-screen bg-gray-50 font-inter">
+    <div className="flex flex-col md:flex-row md:p-6 md:gap-6 bg-gray-50 min-h-screen">
       {/* Sidebar */}
-      <aside className="w-64 bg-white border-r p-6">
-        <h1 className="text-xl font-bold mb-6">Tournament Docs</h1>
-        <nav className="space-y-3 text-gray-700">
-          <a href="#overview" className="block hover:text-blue-600">
-            Overview
-          </a>
-          <a href="#contract" className="block hover:text-blue-600">
-            Smart Contract
-          </a>
-          <a href="#api" className="block hover:text-blue-600">
-            Backend API
-          </a>
-          <a href="#frontend" className="block hover:text-blue-600">
-            Frontend Integration
-          </a>
-          <a href="#events" className="block hover:text-blue-600">
-            Events
-          </a>
-        </nav>
-      </aside>
+      <Sidebar visible={sidebarOpen} />
 
       {/* Main Content */}
-      <main className="flex-1 p-10 space-y-12">{children}</main>
+      <div className="flex flex-col flex-1">
+        <Header onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+
+        <div className="flex-1 overflow-y-auto mt-6 space-y-6 px-4 md:px-0">
+          {children}
+        </div>
+      </div>
     </div>
   );
 };

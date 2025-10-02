@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import { motion } from "framer-motion";
 
 const Register = () => {
@@ -12,6 +13,7 @@ const Register = () => {
 
   const [message, setMessage] = useState({ text: "", type: "" });
   const [loading, setLoading] = useState(false);
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -24,16 +26,14 @@ const Register = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post(
-        " https://chain-backend-tkk9.onrender.com/api/register",
-        formData
-      );
+      const res = await axios.post(`${BASE_URL}/api/register`, formData);
       const { token, user } = res.data;
 
       localStorage.setItem("authToken", token);
       localStorage.setItem("user", JSON.stringify(user));
 
       setMessage({ text: "Registration successful!", type: "success" });
+      toast.success("Registration Successfull!!");
 
       setTimeout(() => navigate("/dashboard"), 1000);
     } catch (error) {
@@ -41,6 +41,7 @@ const Register = () => {
         error.response?.data?.message ||
         "Registration failed. Please try again.";
       setMessage({ text: msg, type: "error" });
+      toast.error(msg);
     } finally {
       setLoading(false);
     }
@@ -96,7 +97,7 @@ const Register = () => {
                 : "bg-blue-600 hover:bg-blue-700"
             } text-white font-semibold py-2 rounded-lg transition`}
           >
-            {loading ? "Loading..." : "Register"}y
+            {loading ? "Loading..." : "Register"}
           </button>
         </form>
 

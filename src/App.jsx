@@ -8,19 +8,29 @@ import DocsPage from "./Components/DocsPage";
 import Register from "./Components/Auth/Register";
 import Login from "./Components/Auth/Login";
 import PutGame from "./Components/PutGame.jsx";
+import User from "./Components/User.jsx";
+import Notification from "./Components/Notification.jsx";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Login />} />
-      <Route path="/dashboard" element={<Home />} />
-      <Route path="/integrateGame" element={<PutGame />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/create" element={<CreateTournament />} />
-      <Route path="/event" element={<EventPage />} />
-      <Route path="/tournament/:id" element={<TournamentDetails />} />
-      <Route path="/docs" element={<DocsPage />} />
-    </Routes>
+    <>
+      <ToastContainer />
+
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/dashboard" element={<Home />} />
+        <Route path="/notification" element={<Notification />} />
+        <Route path="/integrateGame" element={<PutGame />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/user" element={<User />} />
+        <Route path="/create" element={<CreateTournament />} />
+        <Route path="/event" element={<EventPage />} />
+        <Route path="/tournament/:id" element={<TournamentDetails />} />
+        <Route path="/docs" element={<DocsPage />} />
+      </Routes>
+    </>
   );
 }
 

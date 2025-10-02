@@ -16,11 +16,14 @@ const TournamentDetails = () => {
   const [showModal, setShowModal] = useState(null);
   const [amount, setAmount] = useState("");
   const [toast, setToast] = useState(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [balances, setBalances] = useState({ eth: "0", hackusd: "0" });
 
   const TOURNAMENT_POOL_ADDRESS = "0x291ceab033961a0c92ce73b413411e2a41218376";
   const TOKEN_ADDRESS = "0x93de7b986b65f110aedd4401d3b073a116fc746d";
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {
     const fetchTournament = async () => {
@@ -31,14 +34,10 @@ const TournamentDetails = () => {
           navigate("/");
           return;
         }
-        const res = await axios.get(
-          ` https://chain-backend-tkk9.onrender.com/api/tournaments/${id}`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
+        const res = await axios.get(` ${BASE_URL}/api/tournaments/${id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setTournament(res.data);
-        console.log(token);
       } catch (error) {
         console.error("Error fetching tournament details:", error);
         setToast("Failed to load tournament. Please try again.");
@@ -80,7 +79,6 @@ const TournamentDetails = () => {
         setToast("MetaMask not installed");
         return;
       }
-
       // Ensure Sepolia network
       const chainId = "0xAA36A7";
       const currentChain = await window.ethereum.request({
@@ -184,7 +182,7 @@ const TournamentDetails = () => {
           return;
         }
         await axios.post(
-          `http://localhost:3000/api/${id}`,
+          `${BASE_URL}/api/${id}`,
           {
             walletAddress,
             stakeAmount: amount,
@@ -197,7 +195,6 @@ const TournamentDetails = () => {
         );
 
         setToast("Successfully staked & joined!");
-        console.log(token);
       }
     } catch (err) {
       console.error("Staking error:", {
@@ -238,9 +235,9 @@ const TournamentDetails = () => {
 
   return (
     <div className="flex p-6 gap-6 bg-gray-50 min-h-screen">
-      <Sidebar />
+      <Sidebar visible={sidebarOpen} />
       <div className="flex flex-col flex-1">
-        <Header />
+        <Header onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
         <div className="flex-1 bg-white rounded-2xl shadow p-6 mt-6 space-y-6">
           <div className="relative w-full h-60 bg-gray-200 rounded-lg overflow-hidden">
             <img

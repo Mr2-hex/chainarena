@@ -11,6 +11,7 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -27,9 +28,7 @@ const Home = () => {
 
     const fetchTournaments = async () => {
       try {
-        const res = await axios.get(
-          " https://chain-backend-tkk9.onrender.com/api/getTournament"
-        );
+        const res = await axios.get(` ${BASE_URL}/api/getTournament`);
         setTournaments(res.data);
       } catch (error) {
         console.error("Failed to fetch tournaments:", error);
