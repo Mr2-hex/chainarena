@@ -77,6 +77,15 @@ const TournamentDetails = () => {
     try {
       if (!window.ethereum) {
         setToast("MetaMask not installed");
+        if (isMobile) {
+          window.location.href =
+            "https://metamask.app.link/dapp/chainarena-ten.vercel.app";
+        } else {
+          setToast(
+            "MetaMask not installed. Please install MetaMask extension."
+          );
+          window.open("https://metamask.io/download.html", "_blank");
+        }
         return;
       }
       // Ensure Sepolia network
