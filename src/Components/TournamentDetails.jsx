@@ -77,6 +77,8 @@ const TournamentDetails = () => {
     try {
       if (!window.ethereum) {
         setToast("MetaMask not installed");
+        const ua = navigator.userAgent.toLowerCase();
+        const isMobile = /iphone|ipad|ipod|android/i.test(ua);
         if (isMobile) {
           window.location.href =
             "https://metamask.app.link/dapp/chainarena-ten.vercel.app";
