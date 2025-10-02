@@ -18,7 +18,10 @@ const Notification = () => {
 
       {/* Main Content */}
       <div className="flex flex-col flex-1 max-[480px]:mt-3">
-        <Header onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+        <Header
+          onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+          showGreeting={false}
+        />
 
         <div className="flex-1 overflow-y-auto mt-6 px-4 md:px-0">
           {loading ? (
