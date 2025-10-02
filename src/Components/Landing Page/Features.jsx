@@ -1,6 +1,6 @@
 import React from "react";
 import { CheckCircle } from "lucide-react";
-import Illustration from "../../assets/Images/illus1.png";
+import Illustration from "../../assets/Images/Illus1.png";
 
 const Features = () => {
   return (
