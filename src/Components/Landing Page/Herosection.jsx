@@ -21,8 +21,8 @@ const HeroSection = () => {
 
       {/* Subheading */}
       <p className="mt-6 text-lg text-gray-600 max-w-2xl font-inter leading-relaxed">
-        ChainArena makes it easy for Web2 games to tap into Web3 tournaments,
-        staking, and rewards — all through simple APIs.
+        ChainArena makes it easy for Web2 games to utilize Web3 infrastructure —
+        all through simple APIs.
       </p>
 
       {/* CTA Buttons */}
