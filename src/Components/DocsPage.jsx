@@ -133,7 +133,7 @@ const DocsPage = () => {
       <section id="quickstart" className="space-y-4 mt-6">
         <h2 className="text-2xl font-bold text-gray-900">⚡ Quickstart</h2>
         <ol className="list-decimal ml-6 text-gray-700 space-y-1">
-          <li>Network: Sepolia Testnet</li>
+          <li>Network: Reef Pelagia</li>
           <li>Token: HACKUSD (ERC-20)</li>
           <li>
             API Key: Use{" "}
