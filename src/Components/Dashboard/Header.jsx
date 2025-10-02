@@ -7,7 +7,7 @@ const Header = ({
   greeting = "Welcome Back",
 }) => {
   return (
-    <header className="z-40 bg-white w-full h-16 flex items-center justify-between px-6 pt-3">
+    <header className="z-40 bg-white w-full h-16 font-bold flex items-center justify-between  pt-3 max-[720px]:px-4">
       <div className="flex items-center gap-2">
         {showGreeting && (
           <span className="text-2xl md:text-3xl font-extrabold tracking-wide font-funnel text-gray-800 max-[780px]:w-[70%]">

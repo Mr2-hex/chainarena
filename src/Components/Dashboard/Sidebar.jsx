@@ -15,12 +15,9 @@ const Sidebar = ({ visible }) => {
 
   const menus = [
     { name: "Dashboard", icon: Home, link: "/dashboard" },
+    { name: "My Profile", icon: Users, link: "/user" },
     { name: "Developers", icon: BookOpen, link: "/docs" },
-    { name: "User Profile", icon: Users, link: "/user" },
-    { name: "Messages", icon: MessageSquare, link: "/messages" },
     { name: "Notifications", icon: Bell, badge: 2, link: "/notification" },
-    { name: "Calendar", icon: Calendar, link: "/calendar" },
-    { name: "Settings", icon: Settings, link: "/settings" },
   ];
 
   return (

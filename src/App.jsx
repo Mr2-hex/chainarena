@@ -10,6 +10,7 @@ import Login from "./Components/Auth/Login";
 import PutGame from "./Components/PutGame.jsx";
 import User from "./Components/User.jsx";
 import Notification from "./Components/Notification.jsx";
+import Homes from "./Components/Landing Page/Home.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -19,7 +20,8 @@ function App() {
       <ToastContainer />
 
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Homes />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Home />} />
         <Route path="/notification" element={<Notification />} />
         <Route path="/integrateGame" element={<PutGame />} />
