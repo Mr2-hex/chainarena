@@ -10,7 +10,7 @@ const Header = ({
     <header className="z-40 bg-white w-full h-16 flex items-center justify-between px-6 pt-3">
       <div className="flex items-center gap-2">
         {showGreeting && (
-          <span className="text-2xl md:text-3xl font-bold tracking-wide font-boldfont-funnel text-gray-800 max-[780px]:w-[70%]">
+          <span className="text-2xl md:text-3xl font-extrabold tracking-wide font-funnel text-gray-800 max-[780px]:w-[70%]">
             {greeting}
           </span>
         )}

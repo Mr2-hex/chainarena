@@ -77,12 +77,12 @@ const DocsPage = () => {
         <p className="text-gray-700 font-medium mb-4">
           Haven’t added your game yet? Get started now!
         </p>
-        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+        <motion.div whileTap={{ scale: 0.95 }}>
           <Link
             to="/integrateGame"
             className="inline-block bg-indigo-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-indigo-700 transition duration-200"
           >
-            🕹️ Add Your Game
+            Add Your Game
           </Link>
         </motion.div>
       </section>
