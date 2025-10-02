@@ -7,7 +7,7 @@ const Notification = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 2000); // 2-second delay
+    const timer = setTimeout(() => setLoading(false), 2000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -20,7 +20,7 @@ const Notification = () => {
       <div className="flex flex-col flex-1 max-[480px]:mt-3">
         <Header
           onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
-          showGreeting={false}
+          greeting={"Notifications"}
         />
 
         <div className="flex-1 overflow-y-auto mt-6 px-4 md:px-0">
@@ -34,14 +34,27 @@ const Notification = () => {
                 <div className="h-4 bg-gray-200 rounded w-1/2 animate-pulse"></div>
                 <div className="h-4 bg-gray-200 rounded w-2/3 animate-pulse"></div>
               </div>
+              {/* Second */}
+              {/* Skeleton Banner */}
+              <div className="h-20 bg-gray-200 rounded-lg animate-pulse"></div>
+              {/* Skeleton Text */}
+              <div className="space-y-2">
+                <div className="h-4 bg-gray-200 rounded w-3/4 animate-pulse"></div>
+                <div className="h-4 bg-gray-200 rounded w-1/2 animate-pulse"></div>
+                <div className="h-4 bg-gray-200 rounded w-2/3 animate-pulse"></div>
+              </div>
+              {/* Third*/}
+              {/* Skeleton Banner */}
+              <div className="h-20 bg-gray-200 rounded-lg animate-pulse"></div>
+              {/* Skeleton Text */}
+              <div className="space-y-2">
+                <div className="h-4 bg-gray-200 rounded w-3/4 animate-pulse"></div>
+                <div className="h-4 bg-gray-200 rounded w-1/2 animate-pulse"></div>
+                <div className="h-4 bg-gray-200 rounded w-2/3 animate-pulse"></div>
+              </div>
             </div>
           ) : (
             <div className="space-y-6">
-              {/* Banner */}
-              <div className="bg-white text-black  p-6">
-                <h1 className="text-2xl font-bold font-funnel">Messages</h1>
-              </div>
-
               {/* Additional Info */}
               <div className="bg-white rounded-lg p-6 shadow">
                 <h2 className="text-lg font-semibold mb-2">

@@ -4,6 +4,7 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const codeJoinTournament = `
 POST  https://chain-backend-tkk9.onrender.com/api/tournaments/:id/join
@@ -63,7 +64,7 @@ const DocsPage = () => {
       {/* Title */}
       <section>
         <h1 className="text-3xl font-bold text-gray-900 mb-4 font-funnel">
-          🎮 Chain Arena API Integration
+          Chain Arena API Integration
         </h1>
         <p className="text-gray-700">
           Welcome! This guide shows how to integrate your game with Chain Arena
@@ -144,7 +145,7 @@ const DocsPage = () => {
             </Link>
           </li>
           <li>
-            Base URL: <code>http://localhost:3000/api</code>
+            Base URL: <code>{BASE_URL}</code>
           </li>
         </ol>
       </section>
