@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import HeroImg from "../../assets/Images/diagram-flow-Photoroom.png";
 import HeroBg from "../../assets/Images/HeroBg.jpg";
 
@@ -20,10 +21,15 @@ const HeroSection = () => {
       </h1>
 
       {/* Subheading */}
-      <p className="mt-6 text-lg text-gray-600 max-w-2xl font-inter leading-relaxed">
+      <motion.p
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="mt-6 text-lg text-gray-600 max-w-2xl font-inter leading-relaxed"
+      >
         ChainArena makes it easy for Web2 games to utilize Web3 infrastructure —
         all through simple APIs.
-      </p>
+      </motion.p>
 
       {/* CTA Buttons */}
       <div className="mt-8 flex gap-4">
